@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Q-Commerce Monitor - Smart Spending Analytics</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Enhanced CSS -->
+  <link href="app.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Enhanced Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-chart-line me-2"></i>Q-Commerce Monitor
+      </a>
+      <div id="navRight" class="d-flex align-items-center">
+        <div id="navUser" class="me-3"></div>
+        <button id="btnLogout" class="btn btn-outline-danger btn-sm d-none">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <!-- Enhanced Sidebar -->
+      <nav class="col-md-2 d-none d-md-block sidebar p-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link link-view" data-view="dashboard">
+              <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-view" data-view="purchases">
+              <i class="fas fa-shopping-cart me-2"></i>Purchases
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-view" data-view="settings">
+              <i class="fas fa-cog me-2"></i>Settings
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
+        <div id="views">
+          <!-- Enhanced Login View -->
+          <div id="login-view" class="view">
+            <div class="auth-container">
+              <div class="auth-card">
+                <div class="text-center mb-4">
+                  <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                  <h3>Welcome Back</h3>
+                  <p class="text-muted">Sign in to your Q-Commerce dashboard</p>
+                </div>
+                <form id="login-form">
+                  <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      <input id="login-email" class="form-control" type="email" required placeholder="Enter your email">
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      <input id="login-password" class="form-control" type="password" required placeholder="Enter your password">
+                    </div>
+                  </div>
+                  <div id="login-error" class="alert alert-danger d-none"></div>
+                  <button class="btn btn-primary w-100 py-2 mb-3" type="submit">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                  </button>
+                  <div class="text-center">
+                    <button id="show-register" class="btn btn-link" type="button">
+                      Don't have an account? <strong>Sign up</strong>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Register View -->
+          <div id="register-view" class="view d-none">
+            <div class="auth-container">
+              <div class="auth-card">
+                <div class="text-center mb-4">
+                  <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                  <h3>Create Account</h3>
+                  <p class="text-muted">Join Q-Commerce to track your spending</p>
+                </div>
+                <form id="register-form">
+                  <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                      <input id="register-name" class="form-control" type="text" required placeholder="Enter your full name">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      <input id="register-email" class="form-control" type="email" required placeholder="Enter your email">
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      <input id="register-password" class="form-control" type="password" required minlength="6" placeholder="Create a password (min. 6 characters)">
+                    </div>
+                  </div>
+                  <div id="register-error" class="alert alert-danger d-none"></div>
+                  <button class="btn btn-primary w-100 py-2 mb-3" type="submit">
+                    <i class="fas fa-user-plus me-2"></i>Create Account
+                  </button>
+                  <div class="text-center">
+                    <button id="show-login" class="btn btn-link" type="button">
+                      Already have an account? <strong>Sign in</strong>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Dashboard View -->
+          <div id="dashboard-view" class="view d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="mb-0">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard Overview
+              </h3>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm" onclick="window.initDashboard()">
+                  <i class="fas fa-sync-alt me-2"></i>Refresh
+                </button>
+              </div>
+            </div>
+            
+            <!-- KPI Cards -->
+            <div id="kpis" class="row mb-4">
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="kpi text-center">
+                  <i class="fas fa-wallet fa-2x mb-2"></i>
+                  <small>Total Spend</small>
+                  <div>₹0</div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="kpi text-center">
+                  <i class="fas fa-shopping-bag fa-2x mb-2"></i>
+                  <small>Avg Order</small>
+                  <div>₹0</div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="kpi text-center">
+                  <i class="fas fa-chart-line fa-2x mb-2"></i>
+                  <small>Budget</small>
+                  <div>₹0</div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="kpi text-center">
+                  <i class="fas fa-calendar fa-2x mb-2"></i>
+                  <small>Orders</small>
+                  <div>0</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="row">
+              <div class="col-lg-8 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-fire me-2"></i>Spending Heatmap
+                    </h5>
+                    <div id="heatmap" class="text-center">
+                      <div class="loading mx-auto"></div>
+                      <p class="text-muted mt-2">Loading heatmap...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-chart-pie me-2"></i>Spending by Category
+                    </h5>
+                    <div id="category-chart" class="text-center py-4">
+                      <p class="text-muted">Category data will appear here</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Purchases View -->
+          <div id="purchases-view" class="view d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="mb-0">
+                <i class="fas fa-shopping-cart me-2"></i>Purchase Management
+              </h3>
+            </div>
+            
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fas fa-file-upload me-2"></i>Upload Purchase Data
+                </h5>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Upload CSV File</label>
+                  <div class="csv-upload-area">
+                    <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                    <p class="mb-2">Drag & drop your CSV file here or click to browse</p>
+                    <p class="text-muted small mb-3">Supports: CSV files with purchase data</p>
+                    <input id="csv-input" type="file" accept=".csv" class="form-control">
+                  </div>
+                </div>
+                <div id="csv-preview" class="mt-3"></div>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fas fa-list me-2"></i>Recent Purchases
+                </h5>
+                <div id="purchases-table" class="mt-3">
+                  <p class="text-muted text-center py-4">No purchase data available. Upload a CSV file to get started.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Settings View -->
+          <div id="settings-view" class="view d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="mb-0">
+                <i class="fas fa-cog me-2"></i>Settings
+              </h3>
+            </div>
+            
+            <div class="row">
+              <div class="col-lg-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-user me-2"></i>Profile Settings
+                    </h5>
+                    <div class="mb-3">
+                      <label class="form-label">Currency</label>
+                      <select class="form-select">
+                        <option value="INR" selected>Indian Rupee (₹)</option>
+                        <option value="USD">US Dollar ($)</option>
+                        <option value="EUR">Euro (€)</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Timezone</label>
+                      <select class="form-select">
+                        <option value="Asia/Kolkata" selected>India Standard Time (IST)</option>
+                        <option value="UTC">UTC</option>
+                      </select>
+                    </div>
+                    <button class="btn btn-primary">
+                      <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-bell me-2"></i>Notifications
+                    </h5>
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                      <label class="form-check-label" for="emailNotifications">
+                        Email Notifications
+                      </label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="budgetAlerts" checked>
+                      <label class="form-check-label" for="budgetAlerts">
+                        Budget Alerts
+                      </label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="weeklyReports">
+                      <label class="form-check-label" for="weeklyReports">
+                        Weekly Reports
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Config -->
+  <script>
+    window.API_BASE_URL = 'http://127.0.0.1:5000';
+    window.USE_MOCK = false;
+  </script>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <!-- App scripts -->
+  <script src="state.js"></script>
+  <script src="api.js"></script>
+  <script src="auth.js"></script>
+  <script src="heatmap.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="purchases.js"></script>
+
+  <!-- Enhanced Debug script -->
+  <script>
+    console.log('=== Q-COMMERCE MONITOR LOADED ===');
+    console.log('API Base URL:', window.API_BASE_URL);
+    console.log('Mock Mode:', window.USE_MOCK);
+    
+    // Enhanced manual event listener for testing
+    const registerBtn = document.getElementById('show-register');
+    const loginBtn = document.getElementById('show-login');
+    
+    if (registerBtn) {
+      registerBtn.addEventListener('click', function() {
+        console.log('Manual register button click - working!');
+        document.querySelectorAll('.view').forEach(v => v.classList.add('d-none'));
+        document.getElementById('register-view').classList.remove('d-none');
+      });
+    }
+    
+    if (loginBtn) {
+      loginBtn.addEventListener('click', function() {
+        console.log('Manual login button click - working!');
+        document.querySelectorAll('.view').forEach(v => v.classList.add('d-none'));
+        document.getElementById('login-view').classList.remove('d-none');
+      });
+    }
+    
+    console.log('✅ All components loaded successfully');
+  </script>
+</body>
+</html>
